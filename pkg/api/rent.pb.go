@@ -25,17 +25,17 @@ type CreateRentRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Title       string  `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
-	Rooms       int32   `protobuf:"varint,2,opt,name=rooms,proto3" json:"rooms,omitempty"`
-	Price       float32 `protobuf:"fixed32,3,opt,name=price,proto3" json:"price,omitempty"`
-	Country     int32   `protobuf:"varint,4,opt,name=country,proto3" json:"country,omitempty"`
-	City        int32   `protobuf:"varint,5,opt,name=city,proto3" json:"city,omitempty"`
-	Region      int32   `protobuf:"varint,6,opt,name=region,proto3" json:"region,omitempty"`
-	District    int32   `protobuf:"varint,7,opt,name=district,proto3" json:"district,omitempty"`
-	Description string  `protobuf:"bytes,8,opt,name=description,proto3" json:"description,omitempty"`
-	Link        string  `protobuf:"bytes,9,opt,name=link,proto3" json:"link,omitempty"`
-	Source      int32   `protobuf:"varint,10,opt,name=source,proto3" json:"source,omitempty"`
-	TgPhotos    []int64 `protobuf:"varint,11,rep,packed,name=tgPhotos,proto3" json:"tgPhotos,omitempty"`
+	Title       string   `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Rooms       int32    `protobuf:"varint,2,opt,name=rooms,proto3" json:"rooms,omitempty"`
+	Price       float32  `protobuf:"fixed32,3,opt,name=price,proto3" json:"price,omitempty"`
+	Country     int32    `protobuf:"varint,4,opt,name=country,proto3" json:"country,omitempty"`
+	City        int32    `protobuf:"varint,5,opt,name=city,proto3" json:"city,omitempty"`
+	Region      int32    `protobuf:"varint,6,opt,name=region,proto3" json:"region,omitempty"`
+	District    int32    `protobuf:"varint,7,opt,name=district,proto3" json:"district,omitempty"`
+	Description string   `protobuf:"bytes,8,opt,name=description,proto3" json:"description,omitempty"`
+	Link        string   `protobuf:"bytes,9,opt,name=link,proto3" json:"link,omitempty"`
+	Source      int32    `protobuf:"varint,10,opt,name=source,proto3" json:"source,omitempty"`
+	TgPhotos    []string `protobuf:"bytes,11,rep,name=tgPhotos,proto3" json:"tgPhotos,omitempty"`
 }
 
 func (x *CreateRentRequest) Reset() {
@@ -140,7 +140,7 @@ func (x *CreateRentRequest) GetSource() int32 {
 	return 0
 }
 
-func (x *CreateRentRequest) GetTgPhotos() []int64 {
+func (x *CreateRentRequest) GetTgPhotos() []string {
 	if x != nil {
 		return x.TgPhotos
 	}
@@ -152,18 +152,18 @@ type CreateRentResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          int64   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title       string  `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Rooms       int32   `protobuf:"varint,3,opt,name=rooms,proto3" json:"rooms,omitempty"`
-	Price       float32 `protobuf:"fixed32,4,opt,name=price,proto3" json:"price,omitempty"`
-	Country     int32   `protobuf:"varint,5,opt,name=country,proto3" json:"country,omitempty"`
-	City        int32   `protobuf:"varint,6,opt,name=city,proto3" json:"city,omitempty"`
-	Region      int32   `protobuf:"varint,7,opt,name=region,proto3" json:"region,omitempty"`
-	District    int32   `protobuf:"varint,8,opt,name=district,proto3" json:"district,omitempty"`
-	Description string  `protobuf:"bytes,9,opt,name=description,proto3" json:"description,omitempty"`
-	Link        string  `protobuf:"bytes,10,opt,name=link,proto3" json:"link,omitempty"`
-	Source      int32   `protobuf:"varint,11,opt,name=source,proto3" json:"source,omitempty"`
-	TgPhotos    []int64 `protobuf:"varint,12,rep,packed,name=tgPhotos,proto3" json:"tgPhotos,omitempty"`
+	Id          int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title       string   `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Rooms       int32    `protobuf:"varint,3,opt,name=rooms,proto3" json:"rooms,omitempty"`
+	Price       float32  `protobuf:"fixed32,4,opt,name=price,proto3" json:"price,omitempty"`
+	Country     int32    `protobuf:"varint,5,opt,name=country,proto3" json:"country,omitempty"`
+	City        int32    `protobuf:"varint,6,opt,name=city,proto3" json:"city,omitempty"`
+	Region      int32    `protobuf:"varint,7,opt,name=region,proto3" json:"region,omitempty"`
+	District    int32    `protobuf:"varint,8,opt,name=district,proto3" json:"district,omitempty"`
+	Description string   `protobuf:"bytes,9,opt,name=description,proto3" json:"description,omitempty"`
+	Link        string   `protobuf:"bytes,10,opt,name=link,proto3" json:"link,omitempty"`
+	Source      int32    `protobuf:"varint,11,opt,name=source,proto3" json:"source,omitempty"`
+	TgPhotos    []string `protobuf:"bytes,12,rep,name=tgPhotos,proto3" json:"tgPhotos,omitempty"`
 }
 
 func (x *CreateRentResponse) Reset() {
@@ -275,7 +275,7 @@ func (x *CreateRentResponse) GetSource() int32 {
 	return 0
 }
 
-func (x *CreateRentResponse) GetTgPhotos() []int64 {
+func (x *CreateRentResponse) GetTgPhotos() []string {
 	if x != nil {
 		return x.TgPhotos
 	}
@@ -304,7 +304,7 @@ var file_api_rent_proto_rawDesc = []byte{
 	0x12, 0x12, 0x0a, 0x04, 0x6c, 0x69, 0x6e, 0x6b, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
 	0x6c, 0x69, 0x6e, 0x6b, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x0a,
 	0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x1a, 0x0a, 0x08,
-	0x74, 0x67, 0x50, 0x68, 0x6f, 0x74, 0x6f, 0x73, 0x18, 0x0b, 0x20, 0x03, 0x28, 0x03, 0x52, 0x08,
+	0x74, 0x67, 0x50, 0x68, 0x6f, 0x74, 0x6f, 0x73, 0x18, 0x0b, 0x20, 0x03, 0x28, 0x09, 0x52, 0x08,
 	0x74, 0x67, 0x50, 0x68, 0x6f, 0x74, 0x6f, 0x73, 0x22, 0xb2, 0x02, 0x0a, 0x12, 0x43, 0x72, 0x65,
 	0x61, 0x74, 0x65, 0x52, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
 	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12,
@@ -324,7 +324,7 @@ var file_api_rent_proto_rawDesc = []byte{
 	0x01, 0x28, 0x09, 0x52, 0x04, 0x6c, 0x69, 0x6e, 0x6b, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x6f, 0x75,
 	0x72, 0x63, 0x65, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63,
 	0x65, 0x12, 0x1a, 0x0a, 0x08, 0x74, 0x67, 0x50, 0x68, 0x6f, 0x74, 0x6f, 0x73, 0x18, 0x0c, 0x20,
-	0x03, 0x28, 0x03, 0x52, 0x08, 0x74, 0x67, 0x50, 0x68, 0x6f, 0x74, 0x6f, 0x73, 0x32, 0x6c, 0x0a,
+	0x03, 0x28, 0x09, 0x52, 0x08, 0x74, 0x67, 0x50, 0x68, 0x6f, 0x74, 0x6f, 0x73, 0x32, 0x6c, 0x0a,
 	0x0b, 0x52, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x5d, 0x0a, 0x0a,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x6e, 0x74, 0x12, 0x25, 0x2e, 0x72, 0x65, 0x61,
 	0x6c, 0x74, 0x79, 0x2e, 0x72, 0x65, 0x6e, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e,
