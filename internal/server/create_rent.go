@@ -2,12 +2,11 @@ package server
 
 import (
 	"context"
-	v1 "rentapi/pkg/api"
-
-	"rent_api/internal/repo"
+	"github.com/rjazhenka/rentapi/internal/repo"
+	"github.com/rjazhenka/rentapi/pkg/api"
 )
 
-func (s *grpcServer) CreateRent(ctx context.Context, crReq *v1.CreateRentRequest) (*v1.CreateRentResponse, error) {
+func (s *grpcServer) CreateRent(ctx context.Context, crReq *api.CreateRentRequest) (*api.CreateRentResponse, error) {
 	crRentDto := &repo.CreateRentDto{
 		Title:       crReq.Title,
 		Rooms:       crReq.Rooms,
@@ -24,7 +23,7 @@ func (s *grpcServer) CreateRent(ctx context.Context, crReq *v1.CreateRentRequest
 	if err != nil {
 		return nil, err
 	}
-	return &v1.CreateRentResponse{
+	return &api.CreateRentResponse{
 		Id:          rent.Id,
 		Title:       rent.Title,
 		Rooms:       rent.Rooms,

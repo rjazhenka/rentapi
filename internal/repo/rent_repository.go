@@ -19,6 +19,7 @@ type CreateRentDto struct {
 	Description string
 	Link        string
 	Source      int32
+	TgPhotos    []int64
 }
 
 type Rent struct {
@@ -33,4 +34,5 @@ type Rent struct {
 	Description string
 	Link        string
 	Source      int32
+	TgPhotos    []int64
 }

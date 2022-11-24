@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 )
 
 type pgRentRepository struct {
@@ -11,11 +12,12 @@ type pgRentRepository struct {
 
 func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *CreateRentDto) (rent *Rent, err error) {
 	sqlSt := `
-		insert into rent_turkey (title, rooms, price, country, city, region, district, description, link, source)
-		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+		insert into rent_turkey (title, rooms, price, country, city, region, district, description, link, source, photos)
+		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 		returning id
 	`
 	var id int64
+	tgPhotos, _ := json.Marshal(crRt.TgPhotos)
 	err = r.db.QueryRow(sqlSt,
 		crRt.Title,
 		crRt.Rooms,
@@ -27,6 +29,7 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *CreateRentDto) 
 		crRt.Description,
 		crRt.Link,
 		crRt.Source,
+		tgPhotos,
 	).Scan(&id)
 
 	if err != nil {
@@ -45,6 +48,7 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *CreateRentDto) 
 		Description: crRt.Description,
 		Link:        crRt.Link,
 		Source:      crRt.Source,
+		TgPhotos:    crRt.TgPhotos,
 	}, nil
 }
 

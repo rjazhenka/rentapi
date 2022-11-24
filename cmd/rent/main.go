@@ -4,14 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
+	"github.com/rjazhenka/rentapi/internal/repo"
+	"github.com/rjazhenka/rentapi/internal/server"
+	"github.com/rjazhenka/rentapi/pkg/api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
-	v1 "rentapi/pkg/api"
-
-	"rent_api/internal/repo"
-	"rent_api/internal/server"
 )
 
 const (
@@ -29,7 +28,7 @@ func main() {
 
 	s := grpc.NewServer(grpc.MaxSendMsgSize(10*10e6), grpc.MaxRecvMsgSize(10*10e6))
 	reflection.Register(s)
-	v1.RegisterRentServiceServer(s, server.NewGrpcServer(rentRepo))
+	api.RegisterRentServiceServer(s, server.NewGrpcServer(rentRepo))
 	listener, err := net.Listen("tcp", "localhost:8080")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
