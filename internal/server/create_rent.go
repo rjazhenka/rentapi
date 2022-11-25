@@ -18,6 +18,8 @@ func (s *grpcServer) CreateRent(ctx context.Context, crReq *api.CreateRentReques
 		Description: crReq.Description,
 		Link:        crReq.Link,
 		Source:      crReq.Source,
+		TgPhotos:    crReq.TgPhotos,
+		UrlPhotos:   crReq.UrlPhotos,
 	}
 	rent, err := s.rentRepo.CreateRent(ctx, crRentDto)
 	if err != nil {
@@ -35,5 +37,7 @@ func (s *grpcServer) CreateRent(ctx context.Context, crReq *api.CreateRentReques
 		Description: rent.Description,
 		Link:        rent.Link,
 		Source:      rent.Source,
+		TgPhotos:    rent.TgPhotos,
+		UrlPhotos:   rent.UrlPhotos,
 	}, err
 }

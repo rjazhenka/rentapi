@@ -19,6 +19,7 @@ message CreateRentRequest {
   string link = 9;
   int32 source = 10;
   repeated string tgPhotos = 11;
+  repeated string urlPhotos = 12;
 }
 
 message CreateRentResponse {
@@ -34,4 +35,5 @@ message CreateRentResponse {
   string link = 10;
   int32 source = 11;
   repeated string tgPhotos = 12;
+  repeated string urlPhotos = 13;
 }

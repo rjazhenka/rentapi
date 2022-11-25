@@ -12,12 +12,13 @@ type pgRentRepository struct {
 
 func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *CreateRentDto) (rent *Rent, err error) {
 	sqlSt := `
-		insert into rent_turkey (title, rooms, price, country, city, region, district, description, link, source, photos)
-		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+		insert into rent_turkey (title, rooms, price, country, city, region, district, description, link, source, images, imagesUrls)
+		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 		returning id
 	`
 	var id int64
 	tgPhotos, _ := json.Marshal(crRt.TgPhotos)
+	urlPhotos, _ := json.Marshal(crRt.UrlPhotos)
 	err = r.db.QueryRow(sqlSt,
 		crRt.Title,
 		crRt.Rooms,
@@ -30,6 +31,7 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *CreateRentDto) 
 		crRt.Link,
 		crRt.Source,
 		tgPhotos,
+		urlPhotos,
 	).Scan(&id)
 
 	if err != nil {
