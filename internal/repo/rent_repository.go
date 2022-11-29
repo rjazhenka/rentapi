@@ -2,39 +2,9 @@ package repo
 
 import (
 	"context"
+	"github.com/rjazhenka/rentapi/pkg/api"
 )
 
 type RentRepository interface {
-	CreateRent(ctx context.Context, createRent *CreateRentDto) (rent *Rent, er error)
-}
-
-type CreateRentDto struct {
-	Title       string
-	Rooms       int32
-	Price       float32
-	Country     int32
-	City        int32
-	Region      int32
-	District    int32
-	Description string
-	Link        string
-	Source      int32
-	TgPhotos    []string
-	UrlPhotos   []string
-}
-
-type Rent struct {
-	Id          int64
-	Title       string
-	Rooms       int32
-	Price       float32
-	Country     int32
-	City        int32
-	Region      int32
-	District    int32
-	Description string
-	Link        string
-	Source      int32
-	TgPhotos    []string
-	UrlPhotos   []string
+	CreateRent(ctx context.Context, createRent *api.CreateRentRequest) (rent *api.CreateRentResponse, er error)
 }

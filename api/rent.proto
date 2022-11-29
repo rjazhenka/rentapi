@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "google/protobuf/wrappers.proto";
 package realty.rent.api.v1;
 
 option go_package = "github.com/rjazhenka/rentapi/pkg/api";
@@ -10,16 +11,31 @@ service RentService {
 message CreateRentRequest {
   string title = 1;
   int32 rooms = 2;
-  float price = 3;
-  int32 country = 4;
-  int32 city = 5;
-  int32 region = 6;
-  int32 district = 7;
-  string description = 8;
-  string link = 9;
-  int32 source = 10;
-  repeated string tgPhotos = 11;
-  repeated string urlPhotos = 12;
+  string roomsLabel = 3;
+  float price = 4;
+  string priceLabel = 5;
+  int32 country = 6;
+  string countryLabel = 7;
+  int32 city = 8;
+  string cityLabel = 9;
+  int32 region = 10;
+  string regionLabel = 11;
+  int32 district = 12;
+  string districtLabel = 13;
+  string description = 14;
+  string link = 15;
+  int32 source = 16;
+  repeated string tgPhotos = 17;
+  repeated string urlPhotos = 18;
+  string addressLabel = 19;
+  repeated string addressElements = 20;
+  string heatingGasLabel = 21;
+  google.protobuf.BoolValue isHeatingGas = 22;
+  google.protobuf.BoolValue isFurnished = 23;
+  GeoPoint location = 24;
+  string contactLabel = 25;
+  int64 contact = 26;
+  string externalId = 27;
 }
 
 message CreateRentResponse {
@@ -37,3 +53,10 @@ message CreateRentResponse {
   repeated string tgPhotos = 12;
   repeated string urlPhotos = 13;
 }
+
+message GeoPoint {
+  float lat = 1;
+  float long = 2;
+}
+
+
