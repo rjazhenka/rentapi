@@ -95,6 +95,7 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 		Link:        crRt.Link,
 		Source:      crRt.Source,
 		TgPhotos:    crRt.TgPhotos,
+		TgChatId:    crRt.TgChatId,
 	}, nil
 }
 
