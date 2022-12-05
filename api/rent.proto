@@ -36,6 +36,7 @@ message CreateRentRequest {
   string contactLabel = 25;
   int64 contact = 26;
   string externalId = 27;
+  int64 tgChatId = 28;
 }
 
 message CreateRentResponse {
@@ -52,6 +53,7 @@ message CreateRentResponse {
   int32 source = 11;
   repeated string tgPhotos = 12;
   repeated string urlPhotos = 13;
+  int64 tgChatId = 14;
 }
 
 message GeoPoint {

@@ -33,11 +33,12 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 		                         contact_label, contact,
 		                         lat,
 		                         long,
-		                         external_id
+		                         external_id,
+		                         tg_chat_id
 		                         )
 		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 
 		        $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, 
-		        $23, $24, $25, $26, $27, $28)
+		        $23, $24, $25, $26, $27, $28, $29)
 		returning id
 	`
 	var id int64
@@ -74,6 +75,7 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 		crRt.GetLocation().GetLat(),
 		crRt.GetLocation().GetLat(),
 		crRt.ExternalId,
+		crRt.TgChatId,
 	).Scan(&id)
 
 	if err != nil {
