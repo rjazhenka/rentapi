@@ -200,6 +200,44 @@ func (r *pgRentRepository) MarkAsSent(ctx context.Context, req *api.MarkAsSentRe
 	return &api.MarkAsSentResponse{}, nil
 }
 
+func (r *pgRentRepository) CheckIfExist(ctx context.Context, req *api.CheckIfExistRequest) (resp *api.CheckIfExistResponse, er error) {
+	if len(req.Ids) == 0 {
+		return nil, errors.New("ids can not be empty")
+	}
+
+	inSql := ""
+	ids := make([]any, 0, len(req.Ids))
+	for i, id := range req.Ids {
+		inSql += "$" + strconv.Itoa(i+1) + ","
+		ids = append(ids, any(id))
+	}
+	inSql = strings.Trim(inSql, ",")
+
+	sql := fmt.Sprintf("select id from rent_turkey where id in (%s)", inSql)
+
+	stmt, err := r.db.Prepare(sql)
+	defer stmt.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := stmt.Query(ids...)
+	defer rows.Close()
+
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &api.CheckIfExistResponse{}
+	var id int64
+	for rows.Next() {
+		rows.Scan(&id)
+		resp.Ids = append(resp.Ids, id)
+	}
+
+	return resp, nil
+}
+
 func NewPgRentRepository(db *sql.DB) *pgRentRepository {
 	return &pgRentRepository{db: db}
 }

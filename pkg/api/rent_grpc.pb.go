@@ -25,6 +25,7 @@ type RentServiceClient interface {
 	CreateRent(ctx context.Context, in *CreateRentRequest, opts ...grpc.CallOption) (*CreateRentResponse, error)
 	MarkAsSent(ctx context.Context, in *MarkAsSentRequest, opts ...grpc.CallOption) (*MarkAsSentResponse, error)
 	GetRentToSend(ctx context.Context, in *GetRentToSendRequest, opts ...grpc.CallOption) (*GetRentToSendResponse, error)
+	CheckIfExist(ctx context.Context, in *CheckIfExistRequest, opts ...grpc.CallOption) (*CheckIfExistResponse, error)
 }
 
 type rentServiceClient struct {
@@ -62,6 +63,15 @@ func (c *rentServiceClient) GetRentToSend(ctx context.Context, in *GetRentToSend
 	return out, nil
 }
 
+func (c *rentServiceClient) CheckIfExist(ctx context.Context, in *CheckIfExistRequest, opts ...grpc.CallOption) (*CheckIfExistResponse, error) {
+	out := new(CheckIfExistResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/CheckIfExist", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RentServiceServer is the server API for RentService service.
 // All implementations must embed UnimplementedRentServiceServer
 // for forward compatibility
@@ -69,6 +79,7 @@ type RentServiceServer interface {
 	CreateRent(context.Context, *CreateRentRequest) (*CreateRentResponse, error)
 	MarkAsSent(context.Context, *MarkAsSentRequest) (*MarkAsSentResponse, error)
 	GetRentToSend(context.Context, *GetRentToSendRequest) (*GetRentToSendResponse, error)
+	CheckIfExist(context.Context, *CheckIfExistRequest) (*CheckIfExistResponse, error)
 	mustEmbedUnimplementedRentServiceServer()
 }
 
@@ -84,6 +95,9 @@ func (UnimplementedRentServiceServer) MarkAsSent(context.Context, *MarkAsSentReq
 }
 func (UnimplementedRentServiceServer) GetRentToSend(context.Context, *GetRentToSendRequest) (*GetRentToSendResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRentToSend not implemented")
+}
+func (UnimplementedRentServiceServer) CheckIfExist(context.Context, *CheckIfExistRequest) (*CheckIfExistResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckIfExist not implemented")
 }
 func (UnimplementedRentServiceServer) mustEmbedUnimplementedRentServiceServer() {}
 
@@ -152,6 +166,24 @@ func _RentService_GetRentToSend_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RentService_CheckIfExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckIfExistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).CheckIfExist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/CheckIfExist",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).CheckIfExist(ctx, req.(*CheckIfExistRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RentService_ServiceDesc is the grpc.ServiceDesc for RentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -170,6 +202,10 @@ var RentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetRentToSend",
 			Handler:    _RentService_GetRentToSend_Handler,
+		},
+		{
+			MethodName: "CheckIfExist",
+			Handler:    _RentService_CheckIfExist_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,6 +8,15 @@ service RentService {
   rpc CreateRent(CreateRentRequest) returns (CreateRentResponse) {}
   rpc MarkAsSent(MarkAsSentRequest) returns (MarkAsSentResponse) {}
   rpc GetRentToSend(GetRentToSendRequest) returns (GetRentToSendResponse) {}
+  rpc CheckIfExist(CheckIfExistRequest) returns (CheckIfExistResponse) {}
+}
+
+message CheckIfExistRequest {
+  repeated int64 ids = 1;
+}
+
+message CheckIfExistResponse {
+  repeated int64 ids = 1;
 }
 
 message MarkAsSentRequest {
