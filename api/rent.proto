@@ -6,6 +6,45 @@ option go_package = "github.com/rjazhenka/rentapi/pkg/api";
 
 service RentService {
   rpc CreateRent(CreateRentRequest) returns (CreateRentResponse) {}
+  rpc MarkAsSent(MarkAsSentRequest) returns (MarkAsSentResponse) {}
+  rpc GetRentToSend(GetRentToSendRequest) returns (GetRentToSendResponse) {}
+}
+
+message MarkAsSentRequest {
+  repeated int64 ids = 1;
+}
+
+message MarkAsSentResponse {
+
+}
+
+message GetRentToSendRequest {
+  int32 limit = 1;
+}
+
+message GetRentToSendResponse {
+    repeated GetRentToSendResponseItem items = 1;
+}
+
+message GetRentToSendResponseItem {
+  int64 id = 1;
+  string title = 2;
+  string roomsLabel = 3;
+  float price = 4;
+  string cityLabel = 5;
+  string regionLabel = 6;
+  string districtLabel = 7;
+  string description = 8;
+  string link = 9;
+  int32 source = 10;
+  repeated string tgPhotos = 11;
+  repeated string urlPhotos = 12;
+  string addressLabel = 13;
+  string contactLabel = 14;
+  int64 contact = 15;
+  string externalId = 16;
+  int64 tgChatId = 17;
+  int64 tgUserId = 18;
 }
 
 message CreateRentRequest {
@@ -37,23 +76,11 @@ message CreateRentRequest {
   int64 contact = 26;
   string externalId = 27;
   int64 tgChatId = 28;
+  int64 tgUserId = 29;
 }
 
 message CreateRentResponse {
   int64 id = 1;
-  string title = 2;
-  int32 rooms = 3;
-  float price = 4;
-  int32 country = 5;
-  int32 city = 6;
-  int32 region = 7;
-  int32 district = 8;
-  string description = 9;
-  string link = 10;
-  int32 source = 11;
-  repeated string tgPhotos = 12;
-  repeated string urlPhotos = 13;
-  int64 tgChatId = 14;
 }
 
 message GeoPoint {
