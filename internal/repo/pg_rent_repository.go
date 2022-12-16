@@ -206,14 +206,18 @@ func (r *pgRentRepository) CheckIfExist(ctx context.Context, req *api.CheckIfExi
 	}
 
 	inSql := ""
-	ids := make([]any, 0, len(req.Ids))
+	args := make([]any, 0, len(req.Ids))
+	var lastI int
 	for i, id := range req.Ids {
+		lastI = i + 1
 		inSql += "$" + strconv.Itoa(i+1) + ","
-		ids = append(ids, any(id))
+		args = append(args, any(id))
 	}
+	args = append(args, any(req.Source))
 	inSql = strings.Trim(inSql, ",")
 
-	sql := fmt.Sprintf("select id from rent_turkey where id in (%s)", inSql)
+	sql := fmt.Sprintf("select external_id from rent_turkey where external_id in (%s) and source = $%d", inSql, lastI+1)
+	fmt.Println(sql)
 
 	stmt, err := r.db.Prepare(sql)
 	defer stmt.Close()
@@ -221,7 +225,7 @@ func (r *pgRentRepository) CheckIfExist(ctx context.Context, req *api.CheckIfExi
 		return nil, err
 	}
 
-	rows, err := stmt.Query(ids...)
+	rows, err := stmt.Query(args...)
 	defer rows.Close()
 
 	if err != nil {
