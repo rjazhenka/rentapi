@@ -173,29 +173,23 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 }
 
 func (r *pgRentRepository) MarkAsSent(ctx context.Context, req *api.MarkAsSentRequest) (resp *api.MarkAsSentResponse, er error) {
-	if len(req.Ids) == 0 {
+	if len(req.Items) == 0 {
 		return nil, errors.New("ids can not be empty")
 	}
 
-	inSql := ""
-	ids := make([]any, 0, len(req.Ids))
-	for i, id := range req.Ids {
-		inSql += "$" + strconv.Itoa(i+1) + ","
-		ids = append(ids, any(id))
-	}
-	inSql = strings.Trim(inSql, ",")
+	for _, item := range req.Items {
+		sql := "update rent_turkey_outbox set is_sent = true, sent_at = NOW(), tg_message_id = $1, tg_message_desc_id = $2 where id = $3"
+		stmt, err := r.db.Prepare(sql)
 
-	sql := fmt.Sprintf("update rent_turkey_outbox set is_sent = true, sent_at = NOW() where id in (%s)", inSql)
+		if err != nil {
+			return nil, err
+		}
 
-	stmt, err := r.db.Prepare(sql)
-	if err != nil {
-		return nil, err
-	}
+		_, err = stmt.Query(item.TgMessageId, item.TgMessageDescId, item.Id)
 
-	_, err = stmt.Query(ids...)
-
-	if err != nil {
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &api.MarkAsSentResponse{}, nil
 }

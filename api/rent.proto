@@ -21,7 +21,12 @@ message CheckIfExistResponse {
 }
 
 message MarkAsSentRequest {
-  repeated int64 ids = 1;
+  repeated MarkAsSentRequestItem items = 1;
+}
+message MarkAsSentRequestItem {
+  int64 id = 1;
+  int64 tg_message_id = 2;
+  int64 tg_message_desc_id = 3;
 }
 
 message MarkAsSentResponse {
