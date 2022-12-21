@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	host     = "localhost"
+	host     = "postgres"
 	port     = 5432
 	user     = "postgres"
 	password = "admin"
@@ -27,8 +27,8 @@ func main() {
 
 	s := grpc.NewServer()
 	api.RegisterRentServiceServer(s, server.NewGrpcServer(rentRepo))
-	listener, err := net.Listen("tcp", ":8081")
-	log.Printf("Listen to the port %d", 8081)
+	listener, err := net.Listen("tcp", ":8080")
+	log.Printf("Listen to the port %d", 8080)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}

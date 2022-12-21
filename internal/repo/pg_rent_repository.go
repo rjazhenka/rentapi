@@ -83,7 +83,7 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 		crRt.ContactLabel,
 		crRt.Contact,
 		crRt.GetLocation().GetLat(),
-		crRt.GetLocation().GetLat(),
+		crRt.GetLocation().GetLong(),
 		crRt.ExternalId,
 		crRt.TgChatId,
 		crRt.TgUserId,
