@@ -41,6 +41,11 @@ message GetRentToSendResponse {
     repeated GetRentToSendResponseItem items = 1;
 }
 
+message Location {
+  float lat = 1;
+  float long = 2;
+}
+
 message GetRentToSendResponseItem {
   int64 id = 1;
   string title = 2;
@@ -60,6 +65,7 @@ message GetRentToSendResponseItem {
   string externalId = 16;
   int64 tgChatId = 17;
   int64 tgUserId = 18;
+  Location location = 19;
 }
 
 message CreateRentRequest {

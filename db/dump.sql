@@ -43,12 +43,14 @@ alter table rent_turkey
 
 create table if not exists rent_turkey_outbox
 (
-    id         bigint not null
+    id                 bigint not null
         constraint rent_turkey_outbox_pk
             primary key,
-    is_sent    boolean   default false,
-    sent_at    timestamp,
-    created_at timestamp default now()
+    is_sent            boolean   default false,
+    sent_at            timestamp,
+    created_at         timestamp default now(),
+    tg_message_id      bigint,
+    tg_message_desc_id bigint
 );
 
 alter table rent_turkey_outbox

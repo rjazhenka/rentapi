@@ -126,24 +126,26 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			contact,
 			external_id,
 			tg_chat_id,
-			tg_user_id
+			tg_user_id,
+			lat,
+			long
 		from rent_turkey r
 		join rent_turkey_outbox o on r.id = o.id and o.is_sent = false
 		order by r.id
 		for update skip locked
 		limit $1`
 	rows, err := r.db.Query(sql, req.Limit)
-	defer rows.Close()
 
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	resp = &api.GetRentToSendResponse{}
 
 	var item *api.GetRentToSendResponseItem
 	for rows.Next() {
-		item = &api.GetRentToSendResponseItem{}
+		item = &api.GetRentToSendResponseItem{Location: &api.Location{}}
 		var tgImages, urlImages string
 		rows.Scan(&item.Id,
 			&item.Title,
@@ -163,6 +165,8 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			&item.ExternalId,
 			&item.TgChatId,
 			&item.TgUserId,
+			&item.Location.Lat,
+			&item.Location.Long,
 		)
 		json.Unmarshal([]byte(tgImages), &item.TgPhotos)
 		json.Unmarshal([]byte(urlImages), &item.UrlPhotos)
@@ -211,7 +215,6 @@ func (r *pgRentRepository) CheckIfExist(ctx context.Context, req *api.CheckIfExi
 	inSql = strings.Trim(inSql, ",")
 
 	sql := fmt.Sprintf("select external_id from rent_turkey where external_id in (%s) and source = $%d", inSql, lastI+1)
-	fmt.Println(sql)
 
 	stmt, err := r.db.Prepare(sql)
 	defer stmt.Close()

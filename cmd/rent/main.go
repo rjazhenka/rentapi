@@ -8,7 +8,6 @@ import (
 	"github.com/rjazhenka/rentapi/internal/server"
 	"github.com/rjazhenka/rentapi/pkg/api"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
 )
@@ -26,10 +25,10 @@ func main() {
 	defer db.Close()
 	rentRepo := repo.NewPgRentRepository(db)
 
-	s := grpc.NewServer(grpc.MaxSendMsgSize(10*10e6), grpc.MaxRecvMsgSize(10*10e6))
-	reflection.Register(s)
+	s := grpc.NewServer()
 	api.RegisterRentServiceServer(s, server.NewGrpcServer(rentRepo))
-	listener, err := net.Listen("tcp", "localhost:8080")
+	listener, err := net.Listen("tcp", ":8081")
+	log.Printf("Listen to the port %d", 8081)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
@@ -47,5 +46,6 @@ func getDbConn() *sql.DB {
 	if err != nil {
 		panic(err)
 	}
+	log.Println("Connection established")
 	return db
 }
