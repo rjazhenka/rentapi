@@ -41,6 +41,7 @@ func initEnv() error {
 	if env == "" {
 		env = "local"
 	}
+	log.Printf("Start app with env %s", env)
 	viper.SetConfigFile(".env/" + env + ".env")
 	err := viper.ReadInConfig()
 	if err != nil {
