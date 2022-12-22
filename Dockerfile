@@ -6,5 +6,6 @@ RUN cd ./cmd/rent && go build -o /server
 FROM debian:buster
 WORKDIR /
 COPY --from=build-env /server /
+COPY --from=build-env /dockerdev/.env /.env
 EXPOSE 8080
 CMD ["/server"]

@@ -7,28 +7,27 @@ import (
 	"github.com/rjazhenka/rentapi/internal/repo"
 	"github.com/rjazhenka/rentapi/internal/server"
 	"github.com/rjazhenka/rentapi/pkg/api"
+	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"log"
 	"net"
-)
-
-const (
-	host     = "postgres"
-	port     = 5432
-	user     = "postgres"
-	password = "admin"
-	dbname   = "realty"
+	"os"
 )
 
 func main() {
+	err := initEnv()
+	if err != nil {
+		panic("Error config initialization")
+	}
+
 	db := getDbConn()
 	defer db.Close()
 	rentRepo := repo.NewPgRentRepository(db)
 
 	s := grpc.NewServer()
 	api.RegisterRentServiceServer(s, server.NewGrpcServer(rentRepo))
-	listener, err := net.Listen("tcp", ":8080")
-	log.Printf("Listen to the port %d", 8080)
+	listener, err := net.Listen("tcp", ":"+viper.GetString("SERVER_PORT"))
+	log.Printf("Listening on port :%s", viper.GetString("SERVER_PORT"))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
@@ -37,10 +36,27 @@ func main() {
 	}
 }
 
+func initEnv() error {
+	env := os.Getenv("RENT_ENV")
+	if env == "" {
+		env = "local"
+	}
+	viper.SetConfigFile(".env/" + env + ".env")
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+	return err
+}
+
 func getDbConn() *sql.DB {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		viper.GetString("POSTGRES_HOST"),
+		viper.GetString("POSTGRES_PORT"),
+		viper.GetString("POSTGRES_USER"),
+		viper.GetString("POSTGRES_PASSWORD"),
+		viper.GetString("POSTGRES_DBNAME"),
+	)
 
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
