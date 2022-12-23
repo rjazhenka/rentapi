@@ -190,11 +190,12 @@ func (r *pgRentRepository) MarkAsSent(ctx context.Context, req *api.MarkAsSentRe
 
 	for _, item := range req.Items {
 
-		_, err = stmt.Query(item.TgMessageId, item.TgMessageDescId, item.Id)
+		rows, err := stmt.Query(item.TgMessageId, item.TgMessageDescId, item.Id)
 
 		if err != nil {
 			return nil, err
 		}
+		rows.Close()
 	}
 	return &api.MarkAsSentResponse{}, nil
 }
