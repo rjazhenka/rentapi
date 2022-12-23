@@ -4,12 +4,12 @@ gen-client:
 		api/rent.proto
 
 dbuild:
-	docker build -t cr.selcloud.ru/realty-registry/rentapi:$(shell git log --format="%H" -n 1) . \
-	&& docker tag cr.selcloud.ru/realty-registry/rentapi:$(shell git log --format="%H" -n 1) cr.selcloud.ru/realty-registry/rentapi:latest
+	docker build -t registry.digitalocean.com/rent/rentapi:$(shell git log --format="%H" -n 1) . \
+	&& docker tag registry.digitalocean.com/rent/rentapi:$(shell git log --format="%H" -n 1) registry.digitalocean.com/rent/rentapi:latest
 
 dpush:
-	docker push cr.selcloud.ru/realty-registry/rentapi:$(shell git log --format="%H" -n 1) \
-	&& docker push cr.selcloud.ru/realty-registry/rentapi:latest
+	docker push registry.digitalocean.com/rent/rentapi:$(shell git log --format="%H" -n 1) \
+	&& docker push registry.digitalocean.com/rent/rentapi:latest
 
 drun:
-	docker run -it --rm -p 8080:8080 -e RENT_ENV=local cr.selcloud.ru/realty-registry/rentapi
+	docker run -it --rm -p 8080:8080 -e RENT_ENV=local registry.digitalocean.com/rent/rentapi
