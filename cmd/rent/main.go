@@ -43,6 +43,7 @@ func initEnv() error {
 	}
 	log.Printf("Start app with env %s", env)
 	viper.SetConfigFile(".env/" + env + ".env")
+	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatalf(err.Error())
