@@ -48,7 +48,7 @@ func initEnv() error {
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	fmt.Println(viper.GetString("POSTGRES_PASSWORD"))
+
 	return err
 }
 
