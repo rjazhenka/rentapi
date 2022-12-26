@@ -123,12 +123,14 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			images_urls,
 			address_label,
 			contact_label,
-			contact,
+			contact
 			external_id,
 			tg_chat_id,
 			tg_user_id,
 			lat,
-			long
+			long,
+			heating_gas_label,
+			is_heating_gas
 		from rent_turkey r
 		join rent_turkey_outbox o on r.id = o.id and o.is_sent = false
 		order by r.id
@@ -167,6 +169,8 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			&item.TgUserId,
 			&item.Location.Lat,
 			&item.Location.Long,
+			&item.HeatingGasLabel,
+			&item.HasHeatiing,
 		)
 		json.Unmarshal([]byte(tgImages), &item.TgPhotos)
 		json.Unmarshal([]byte(urlImages), &item.UrlPhotos)

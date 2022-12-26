@@ -66,6 +66,8 @@ message GetRentToSendResponseItem {
   int64 tgChatId = 17;
   int64 tgUserId = 18;
   Location location = 19;
+  string heatingGasLabel = 21;
+  bool hasHeatiing = 22;
 }
 
 message CreateRentRequest {
