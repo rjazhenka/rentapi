@@ -123,7 +123,7 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			images_urls,
 			address_label,
 			contact_label,
-			contact
+			contact,
 			external_id,
 			tg_chat_id,
 			tg_user_id,
