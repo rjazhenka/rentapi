@@ -1,6 +1,8 @@
-create table if not exists rent_turkey
+create table rent_turkey
 (
-    id                serial,
+    id                serial
+        constraint id_pk
+            primary key,
     title             varchar,
     rooms             integer,
     price             numeric,
@@ -41,7 +43,7 @@ create table if not exists rent_turkey
 alter table rent_turkey
     owner to postgres;
 
-create table if not exists rent_turkey_outbox
+create table rent_turkey_outbox
 (
     id                 bigint not null
         constraint rent_turkey_outbox_pk

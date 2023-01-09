@@ -39,11 +39,12 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 		                         long,
 		                         external_id,
 		                         tg_chat_id,
-		                         tg_user_id
+		                         tg_user_id,
+		                         contact_tg_user_name
 		                         )
 		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 
 		        $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, 
-		        $23, $24, $25, $26, $27, $28, $29, $30)
+		        $23, $24, $25, $26, $27, $28, $29, $30, $31)
 		on conflict(external_id) do update set
 		                          title = EXCLUDED.title
 		returning id
@@ -87,6 +88,7 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 		crRt.ExternalId,
 		crRt.TgChatId,
 		crRt.TgUserId,
+		crRt.ContactTgUserName,
 	).Scan(&id)
 
 	if err != nil {
@@ -130,7 +132,8 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			lat,
 			long,
 			heating_gas_label,
-			is_heating_gas
+			is_heating_gas,
+			r.contact_tg_user_name
 		from rent_turkey r
 		join rent_turkey_outbox o on r.id = o.id and o.is_sent = false
 		order by r.id
@@ -171,6 +174,7 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			&item.Location.Long,
 			&item.HeatingGasLabel,
 			&item.HasHeatiing,
+			&item.ContactTgUserName,
 		)
 		json.Unmarshal([]byte(tgImages), &item.TgPhotos)
 		json.Unmarshal([]byte(urlImages), &item.UrlPhotos)
