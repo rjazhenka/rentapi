@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/rjazhenka/rentapi/pkg/api"
 	"google.golang.org/protobuf/types/known/wrapperspb"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -132,8 +133,8 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			lat,
 			long,
 			heating_gas_label,
-			is_heating_gas,
-			r.contact_tg_user_name
+			coalesce(is_heating_gas, false),
+			contact_tg_user_name
 		from rent_turkey r
 		join rent_turkey_outbox o on r.id = o.id and o.is_sent = false
 		order by r.id
@@ -152,7 +153,7 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 	for rows.Next() {
 		item = &api.GetRentToSendResponseItem{Location: &api.Location{}}
 		var tgImages, urlImages string
-		rows.Scan(&item.Id,
+		err := rows.Scan(&item.Id,
 			&item.Title,
 			&item.RoomsLabel,
 			&item.Price,
@@ -176,6 +177,11 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			&item.HasHeatiing,
 			&item.ContactTgUserName,
 		)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
 		json.Unmarshal([]byte(tgImages), &item.TgPhotos)
 		json.Unmarshal([]byte(urlImages), &item.UrlPhotos)
 		resp.Items = append(resp.Items, item)
