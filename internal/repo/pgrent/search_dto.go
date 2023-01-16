@@ -11,6 +11,7 @@ type RentSearch struct {
 	Name   string
 	ChatId int64
 	Params *RentSearchParams
+	State  int32
 }
 
 type RentSearchParams struct {
