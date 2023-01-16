@@ -7,8 +7,10 @@ import (
 
 func (r *pgRentRepository) ModifySearch(ctx context.Context, req *api.ModifySearchRequest) (resp *api.ModifySearchResponse, er error) {
 	sqlSrch := `
-		update  rent_search set params = $1
-		where chat_id = $2 and name = $3
+		insert into rent_search (params, chat_id, name)
+		values ($1, $2, $3) 
+		on conflict (name, chat_id) do update
+			set name = $3, params = $1
 		returning id
 	`
 	params := &RentSearchParams{
