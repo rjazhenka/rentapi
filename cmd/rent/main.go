@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
-	"github.com/rjazhenka/rentapi/internal/repo"
+	"github.com/rjazhenka/rentapi/internal/repo/pgrent"
 	"github.com/rjazhenka/rentapi/internal/server"
 	"github.com/rjazhenka/rentapi/pkg/api"
 	"github.com/spf13/viper"
@@ -22,7 +22,7 @@ func main() {
 
 	db := getDbConn()
 	defer db.Close()
-	rentRepo := repo.NewPgRentRepository(db)
+	rentRepo := pgrent.NewPgRentRepository(db)
 
 	s := grpc.NewServer()
 	api.RegisterRentServiceServer(s, server.NewGrpcServer(rentRepo))

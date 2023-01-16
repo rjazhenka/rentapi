@@ -26,6 +26,9 @@ type RentServiceClient interface {
 	MarkAsSent(ctx context.Context, in *MarkAsSentRequest, opts ...grpc.CallOption) (*MarkAsSentResponse, error)
 	GetRentToSend(ctx context.Context, in *GetRentToSendRequest, opts ...grpc.CallOption) (*GetRentToSendResponse, error)
 	CheckIfExist(ctx context.Context, in *CheckIfExistRequest, opts ...grpc.CallOption) (*CheckIfExistResponse, error)
+	ModifySearch(ctx context.Context, in *ModifySearchRequest, opts ...grpc.CallOption) (*ModifySearchResponse, error)
+	CreateSearch(ctx context.Context, in *CreateSearchRequest, opts ...grpc.CallOption) (*CreateSearchResponse, error)
+	GetSearch(ctx context.Context, in *GetSearchRequest, opts ...grpc.CallOption) (*GetSearchResponse, error)
 }
 
 type rentServiceClient struct {
@@ -72,6 +75,33 @@ func (c *rentServiceClient) CheckIfExist(ctx context.Context, in *CheckIfExistRe
 	return out, nil
 }
 
+func (c *rentServiceClient) ModifySearch(ctx context.Context, in *ModifySearchRequest, opts ...grpc.CallOption) (*ModifySearchResponse, error) {
+	out := new(ModifySearchResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/ModifySearch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rentServiceClient) CreateSearch(ctx context.Context, in *CreateSearchRequest, opts ...grpc.CallOption) (*CreateSearchResponse, error) {
+	out := new(CreateSearchResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/CreateSearch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rentServiceClient) GetSearch(ctx context.Context, in *GetSearchRequest, opts ...grpc.CallOption) (*GetSearchResponse, error) {
+	out := new(GetSearchResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/GetSearch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RentServiceServer is the server API for RentService service.
 // All implementations must embed UnimplementedRentServiceServer
 // for forward compatibility
@@ -80,6 +110,9 @@ type RentServiceServer interface {
 	MarkAsSent(context.Context, *MarkAsSentRequest) (*MarkAsSentResponse, error)
 	GetRentToSend(context.Context, *GetRentToSendRequest) (*GetRentToSendResponse, error)
 	CheckIfExist(context.Context, *CheckIfExistRequest) (*CheckIfExistResponse, error)
+	ModifySearch(context.Context, *ModifySearchRequest) (*ModifySearchResponse, error)
+	CreateSearch(context.Context, *CreateSearchRequest) (*CreateSearchResponse, error)
+	GetSearch(context.Context, *GetSearchRequest) (*GetSearchResponse, error)
 	mustEmbedUnimplementedRentServiceServer()
 }
 
@@ -98,6 +131,15 @@ func (UnimplementedRentServiceServer) GetRentToSend(context.Context, *GetRentToS
 }
 func (UnimplementedRentServiceServer) CheckIfExist(context.Context, *CheckIfExistRequest) (*CheckIfExistResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckIfExist not implemented")
+}
+func (UnimplementedRentServiceServer) ModifySearch(context.Context, *ModifySearchRequest) (*ModifySearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ModifySearch not implemented")
+}
+func (UnimplementedRentServiceServer) CreateSearch(context.Context, *CreateSearchRequest) (*CreateSearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSearch not implemented")
+}
+func (UnimplementedRentServiceServer) GetSearch(context.Context, *GetSearchRequest) (*GetSearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSearch not implemented")
 }
 func (UnimplementedRentServiceServer) mustEmbedUnimplementedRentServiceServer() {}
 
@@ -184,6 +226,60 @@ func _RentService_CheckIfExist_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RentService_ModifySearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ModifySearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).ModifySearch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/ModifySearch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).ModifySearch(ctx, req.(*ModifySearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RentService_CreateSearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).CreateSearch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/CreateSearch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).CreateSearch(ctx, req.(*CreateSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RentService_GetSearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).GetSearch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/GetSearch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).GetSearch(ctx, req.(*GetSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RentService_ServiceDesc is the grpc.ServiceDesc for RentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -206,6 +302,18 @@ var RentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CheckIfExist",
 			Handler:    _RentService_CheckIfExist_Handler,
+		},
+		{
+			MethodName: "ModifySearch",
+			Handler:    _RentService_ModifySearch_Handler,
+		},
+		{
+			MethodName: "CreateSearch",
+			Handler:    _RentService_CreateSearch_Handler,
+		},
+		{
+			MethodName: "GetSearch",
+			Handler:    _RentService_GetSearch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
