@@ -13,4 +13,6 @@ type RentRepository interface {
 	ModifySearch(ctx context.Context, req *api.ModifySearchRequest) (resp *api.ModifySearchResponse, er error)
 	CreateSearch(ctx context.Context, req *api.CreateSearchRequest) (resp *api.CreateSearchResponse, er error)
 	GetSearch(ctx context.Context, req *api.GetSearchRequest) (resp *api.GetSearchResponse, er error)
+	GetSearchToSend(ctx context.Context, req *api.GetSearchToSendRequest) (resp *api.GetSearchToSendResponse, er error)
+	MarkSearchAsSent(ctx context.Context, req *api.MarkSearchAsSentRequest) (resp *api.MarkSearchAsSentResponse, er error)
 }

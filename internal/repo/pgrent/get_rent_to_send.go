@@ -31,7 +31,7 @@ func (r *pgRentRepository) GetRentToSend(ctx context.Context, req *api.GetRentTo
 			long,
 			heating_gas_label,
 			coalesce(is_heating_gas, false),
-			r.contact_tg_user_name
+			coalesce(r.contact_tg_user_name, '')
 		from rent_turkey r
 		join rent_turkey_outbox o on r.id = o.id and o.is_sent = false
 		order by r.id

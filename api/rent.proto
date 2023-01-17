@@ -12,6 +12,18 @@ service RentService {
   rpc ModifySearch(ModifySearchRequest) returns (ModifySearchResponse) {}
   rpc CreateSearch(CreateSearchRequest) returns (CreateSearchResponse) {}
   rpc GetSearch(GetSearchRequest) returns (GetSearchResponse) {}
+  rpc GetSearchToSend(GetSearchToSendRequest) returns (GetSearchToSendResponse) {}
+  rpc MarkSearchAsSent(MarkSearchAsSentRequest) returns (MarkSearchAsSentResponse) {}
+}
+
+message MarkSearchAsSentResponse {}
+
+message MarkSearchAsSentRequest {
+    repeated MarkSearchAsSentRequestItem items = 1;
+}
+
+message MarkSearchAsSentRequestItem {
+  int64 id = 1;
 }
 
 message GetSearchRequest {
@@ -78,13 +90,26 @@ message GetRentToSendRequest {
   int32 limit = 1;
 }
 
+message GetSearchToSendRequest {
+  int32 limit = 1;
+}
+
 message GetRentToSendResponse {
     repeated GetRentToSendResponseItem items = 1;
+}
+
+message GetSearchToSendResponse {
+  repeated GetSearchToSendResponseItem items = 1;
 }
 
 message Location {
   float lat = 1;
   float long = 2;
+}
+message GetSearchToSendResponseItem {
+    GetRentToSendResponseItem ad = 1;
+    int64 ChatId = 2;
+    int64 Id = 3;
 }
 
 message GetRentToSendResponseItem {

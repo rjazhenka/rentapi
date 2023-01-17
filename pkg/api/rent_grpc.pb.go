@@ -29,6 +29,8 @@ type RentServiceClient interface {
 	ModifySearch(ctx context.Context, in *ModifySearchRequest, opts ...grpc.CallOption) (*ModifySearchResponse, error)
 	CreateSearch(ctx context.Context, in *CreateSearchRequest, opts ...grpc.CallOption) (*CreateSearchResponse, error)
 	GetSearch(ctx context.Context, in *GetSearchRequest, opts ...grpc.CallOption) (*GetSearchResponse, error)
+	GetSearchToSend(ctx context.Context, in *GetSearchToSendRequest, opts ...grpc.CallOption) (*GetSearchToSendResponse, error)
+	MarkSearchAsSent(ctx context.Context, in *MarkSearchAsSentRequest, opts ...grpc.CallOption) (*MarkSearchAsSentResponse, error)
 }
 
 type rentServiceClient struct {
@@ -102,6 +104,24 @@ func (c *rentServiceClient) GetSearch(ctx context.Context, in *GetSearchRequest,
 	return out, nil
 }
 
+func (c *rentServiceClient) GetSearchToSend(ctx context.Context, in *GetSearchToSendRequest, opts ...grpc.CallOption) (*GetSearchToSendResponse, error) {
+	out := new(GetSearchToSendResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/GetSearchToSend", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rentServiceClient) MarkSearchAsSent(ctx context.Context, in *MarkSearchAsSentRequest, opts ...grpc.CallOption) (*MarkSearchAsSentResponse, error) {
+	out := new(MarkSearchAsSentResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/MarkSearchAsSent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RentServiceServer is the server API for RentService service.
 // All implementations must embed UnimplementedRentServiceServer
 // for forward compatibility
@@ -113,6 +133,8 @@ type RentServiceServer interface {
 	ModifySearch(context.Context, *ModifySearchRequest) (*ModifySearchResponse, error)
 	CreateSearch(context.Context, *CreateSearchRequest) (*CreateSearchResponse, error)
 	GetSearch(context.Context, *GetSearchRequest) (*GetSearchResponse, error)
+	GetSearchToSend(context.Context, *GetSearchToSendRequest) (*GetSearchToSendResponse, error)
+	MarkSearchAsSent(context.Context, *MarkSearchAsSentRequest) (*MarkSearchAsSentResponse, error)
 	mustEmbedUnimplementedRentServiceServer()
 }
 
@@ -140,6 +162,12 @@ func (UnimplementedRentServiceServer) CreateSearch(context.Context, *CreateSearc
 }
 func (UnimplementedRentServiceServer) GetSearch(context.Context, *GetSearchRequest) (*GetSearchResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSearch not implemented")
+}
+func (UnimplementedRentServiceServer) GetSearchToSend(context.Context, *GetSearchToSendRequest) (*GetSearchToSendResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSearchToSend not implemented")
+}
+func (UnimplementedRentServiceServer) MarkSearchAsSent(context.Context, *MarkSearchAsSentRequest) (*MarkSearchAsSentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MarkSearchAsSent not implemented")
 }
 func (UnimplementedRentServiceServer) mustEmbedUnimplementedRentServiceServer() {}
 
@@ -280,6 +308,42 @@ func _RentService_GetSearch_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RentService_GetSearchToSend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSearchToSendRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).GetSearchToSend(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/GetSearchToSend",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).GetSearchToSend(ctx, req.(*GetSearchToSendRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RentService_MarkSearchAsSent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MarkSearchAsSentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).MarkSearchAsSent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/MarkSearchAsSent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).MarkSearchAsSent(ctx, req.(*MarkSearchAsSentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RentService_ServiceDesc is the grpc.ServiceDesc for RentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -314,6 +378,14 @@ var RentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSearch",
 			Handler:    _RentService_GetSearch_Handler,
+		},
+		{
+			MethodName: "GetSearchToSend",
+			Handler:    _RentService_GetSearchToSend_Handler,
+		},
+		{
+			MethodName: "MarkSearchAsSent",
+			Handler:    _RentService_MarkSearchAsSent_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
