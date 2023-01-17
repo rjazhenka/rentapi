@@ -78,7 +78,7 @@ message MarkAsSentRequest {
 
 message MarkAsSentRequestItem {
   int64 id = 1;
-  int64 tg_message_id = 2;
+  string tg_message_id = 2;
   int64 tg_message_desc_id = 3;
 }
 
