@@ -19,7 +19,7 @@ func (r *pgRentRepository) GetSearchToSend(ctx context.Context, req *api.GetSear
 			description,
 			link,
 			source,
-			images_tg_ids,
+			o.tg_message_id, -- TODO refactor
 			images_urls,
 			address_label,
 			contact_label,
@@ -35,6 +35,7 @@ func (r *pgRentRepository) GetSearchToSend(ctx context.Context, req *api.GetSear
 			s.chat_id,
 			q.id
 		from rent_turkey r
+		join public.rent_turkey_outbox o on o.id = r.id and o.is_sent = true -- TODO refactor. 
 		join rent_search_result_queue q on r.id = q.rent_id and q.is_sent = false
 		join rent_search s on q.search_id = s.id
 		order by r.id

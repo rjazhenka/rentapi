@@ -49,8 +49,8 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 	    , ad.id
 	    , false
 	from rent_turkey ad
-	join rent_search s on ad.id > s.last_id
-	   and (s.params->>'max_price')::int >= ad.price
+	join rent_search s on 
+	   (s.params->>'max_price')::int >= ad.price
 	   and (s.params->>'rooms')::int <= ad.rooms  
 	   and ad.id = $1;
 	`
