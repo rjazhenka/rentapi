@@ -50,12 +50,12 @@ func (r *pgRentRepository) GetSearchToSend(ctx context.Context, req *api.GetSear
 
 	resp = &api.GetSearchToSendResponse{}
 
-	ad := &api.GetRentToSendResponseItem{
-		Location: &api.Location{},
-	}
-	var chatId, id int64
-
 	for rows.Next() {
+		ad := &api.GetRentToSendResponseItem{
+			Location: &api.Location{},
+		}
+		var chatId, id int64
+
 		var tgImages, urlImages string
 		err := rows.Scan(&ad.Id,
 			&ad.Title,
