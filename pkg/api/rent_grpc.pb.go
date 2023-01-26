@@ -31,6 +31,8 @@ type RentServiceClient interface {
 	GetSearch(ctx context.Context, in *GetSearchRequest, opts ...grpc.CallOption) (*GetSearchResponse, error)
 	GetSearchToSend(ctx context.Context, in *GetSearchToSendRequest, opts ...grpc.CallOption) (*GetSearchToSendResponse, error)
 	MarkSearchAsSent(ctx context.Context, in *MarkSearchAsSentRequest, opts ...grpc.CallOption) (*MarkSearchAsSentResponse, error)
+	GetTownsByCity(ctx context.Context, in *GetTownsByCityRequest, opts ...grpc.CallOption) (*GetTownsByCityResponse, error)
+	GetQuartersByTowns(ctx context.Context, in *GetQuartersByTownsRequest, opts ...grpc.CallOption) (*GetQuartersByTownsResponse, error)
 }
 
 type rentServiceClient struct {
@@ -122,6 +124,24 @@ func (c *rentServiceClient) MarkSearchAsSent(ctx context.Context, in *MarkSearch
 	return out, nil
 }
 
+func (c *rentServiceClient) GetTownsByCity(ctx context.Context, in *GetTownsByCityRequest, opts ...grpc.CallOption) (*GetTownsByCityResponse, error) {
+	out := new(GetTownsByCityResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/GetTownsByCity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rentServiceClient) GetQuartersByTowns(ctx context.Context, in *GetQuartersByTownsRequest, opts ...grpc.CallOption) (*GetQuartersByTownsResponse, error) {
+	out := new(GetQuartersByTownsResponse)
+	err := c.cc.Invoke(ctx, "/realty.rent.api.v1.RentService/GetQuartersByTowns", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RentServiceServer is the server API for RentService service.
 // All implementations must embed UnimplementedRentServiceServer
 // for forward compatibility
@@ -135,6 +155,8 @@ type RentServiceServer interface {
 	GetSearch(context.Context, *GetSearchRequest) (*GetSearchResponse, error)
 	GetSearchToSend(context.Context, *GetSearchToSendRequest) (*GetSearchToSendResponse, error)
 	MarkSearchAsSent(context.Context, *MarkSearchAsSentRequest) (*MarkSearchAsSentResponse, error)
+	GetTownsByCity(context.Context, *GetTownsByCityRequest) (*GetTownsByCityResponse, error)
+	GetQuartersByTowns(context.Context, *GetQuartersByTownsRequest) (*GetQuartersByTownsResponse, error)
 	mustEmbedUnimplementedRentServiceServer()
 }
 
@@ -168,6 +190,12 @@ func (UnimplementedRentServiceServer) GetSearchToSend(context.Context, *GetSearc
 }
 func (UnimplementedRentServiceServer) MarkSearchAsSent(context.Context, *MarkSearchAsSentRequest) (*MarkSearchAsSentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MarkSearchAsSent not implemented")
+}
+func (UnimplementedRentServiceServer) GetTownsByCity(context.Context, *GetTownsByCityRequest) (*GetTownsByCityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTownsByCity not implemented")
+}
+func (UnimplementedRentServiceServer) GetQuartersByTowns(context.Context, *GetQuartersByTownsRequest) (*GetQuartersByTownsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetQuartersByTowns not implemented")
 }
 func (UnimplementedRentServiceServer) mustEmbedUnimplementedRentServiceServer() {}
 
@@ -344,6 +372,42 @@ func _RentService_MarkSearchAsSent_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RentService_GetTownsByCity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTownsByCityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).GetTownsByCity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/GetTownsByCity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).GetTownsByCity(ctx, req.(*GetTownsByCityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RentService_GetQuartersByTowns_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetQuartersByTownsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RentServiceServer).GetQuartersByTowns(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/realty.rent.api.v1.RentService/GetQuartersByTowns",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RentServiceServer).GetQuartersByTowns(ctx, req.(*GetQuartersByTownsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RentService_ServiceDesc is the grpc.ServiceDesc for RentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -386,6 +450,14 @@ var RentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MarkSearchAsSent",
 			Handler:    _RentService_MarkSearchAsSent_Handler,
+		},
+		{
+			MethodName: "GetTownsByCity",
+			Handler:    _RentService_GetTownsByCity_Handler,
+		},
+		{
+			MethodName: "GetQuartersByTowns",
+			Handler:    _RentService_GetQuartersByTowns_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

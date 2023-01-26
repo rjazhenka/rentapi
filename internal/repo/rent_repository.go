@@ -15,4 +15,6 @@ type RentRepository interface {
 	GetSearch(ctx context.Context, req *api.GetSearchRequest) (resp *api.GetSearchResponse, er error)
 	GetSearchToSend(ctx context.Context, req *api.GetSearchToSendRequest) (resp *api.GetSearchToSendResponse, er error)
 	MarkSearchAsSent(ctx context.Context, req *api.MarkSearchAsSentRequest) (resp *api.MarkSearchAsSentResponse, er error)
+	GetTownsByCity(ctx context.Context, req *api.GetTownsByCityRequest) (resp *api.GetTownsByCityResponse, er error)
+	GetQuartersByTowns(ctx context.Context, req *api.GetQuartersByTownsRequest) (resp *api.GetQuartersByTownsResponse, er error)
 }

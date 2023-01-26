@@ -14,6 +14,37 @@ service RentService {
   rpc GetSearch(GetSearchRequest) returns (GetSearchResponse) {}
   rpc GetSearchToSend(GetSearchToSendRequest) returns (GetSearchToSendResponse) {}
   rpc MarkSearchAsSent(MarkSearchAsSentRequest) returns (MarkSearchAsSentResponse) {}
+
+  rpc GetTownsByCity(GetTownsByCityRequest) returns (GetTownsByCityResponse) {}
+  rpc GetQuartersByTowns(GetQuartersByTownsRequest) returns (GetQuartersByTownsResponse) {}
+}
+
+message Town {
+  int32 id = 1;
+  string name_tr = 2;
+}
+
+message Quarter {
+  Town town = 1;
+  int32 id = 2;
+  string name_tr = 3;
+  bool is_vnzh = 4;
+}
+
+message GetQuartersByTownsRequest {
+  repeated int32 town_ids = 1;
+}
+
+message GetQuartersByTownsResponse {
+  repeated Quarter quarters = 1;
+}
+
+message GetTownsByCityRequest {
+  int32 city_id = 1;
+}
+
+message GetTownsByCityResponse {
+  repeated Town towns = 1;
 }
 
 message MarkSearchAsSentResponse {}
