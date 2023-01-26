@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func (r *pgRentRepository) GetDistrictsByTowns(_ context.Context, req *api.GetQuartersByTownsRequest) (resp *api.GetQuartersByTownsResponse, er error) {
+func (r *pgRentRepository) GetQuartersByTowns(_ context.Context, req *api.GetQuartersByTownsRequest) (resp *api.GetQuartersByTownsResponse, er error) {
 	sql := `select 
     	q.id quarter_id, 
     	q.name_tr quarter_name_tr,
