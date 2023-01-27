@@ -69,6 +69,11 @@ message GetSearchResponse {
   int64 chat_id = 4;
   string name = 5;
   int32 state = 6;
+  repeated string towns_names = 7;
+  repeated int32 towns_ids = 8;
+  repeated string quarters_names = 9;
+  repeated int32 quarters_ids = 10;
+  bool is_vnz = 11;
 }
 
 message CreateSearchRequest {
@@ -84,6 +89,11 @@ message ModifySearchRequest {
   int64 chat_id = 3;
   string name = 4;
   int32 state = 5;
+  repeated string towns_names = 6;
+  repeated int32 towns_ids = 7;
+  repeated string quarters_names = 8;
+  repeated int32 quarters_ids = 9;
+  bool is_vnz = 10;
 }
 
 message ModifySearchResponse {

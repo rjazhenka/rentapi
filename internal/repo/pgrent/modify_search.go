@@ -14,8 +14,13 @@ func (r *pgRentRepository) ModifySearch(ctx context.Context, req *api.ModifySear
 		returning id
 	`
 	params := &RentSearchParams{
-		Rooms:    req.Rooms,
-		MaxPrice: req.MaxPrice,
+		Rooms:         req.Rooms,
+		MaxPrice:      req.MaxPrice,
+		TownsIds:      req.TownsIds,
+		TownsNames:    req.TownsNames,
+		QuartersIds:   req.QuartersIds,
+		QuartersNames: req.QuartersNames,
+		isVnzh:        req.IsVnz,
 	}
 
 	var id int64

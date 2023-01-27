@@ -15,8 +15,13 @@ type RentSearch struct {
 }
 
 type RentSearchParams struct {
-	Rooms    int32 `json:"rooms,omitempty"`
-	MaxPrice int32 `json:"max_price,omitempty"`
+	Rooms         int32    `json:"rooms,omitempty"`
+	MaxPrice      int32    `json:"max_price,omitempty"`
+	TownsIds      []int32  `json:"towns_ids"`
+	TownsNames    []string `json:"towns_names"`
+	QuartersIds   []int32  `json:"quarters_ids"`
+	QuartersNames []string `json:"quarters_names"`
+	isVnzh        bool     `json:"is_vnz"`
 }
 
 func (s RentSearchParams) Value() (driver.Value, error) {

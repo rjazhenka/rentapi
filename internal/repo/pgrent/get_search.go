@@ -17,11 +17,16 @@ func (r *pgRentRepository) GetSearch(ctx context.Context, req *api.GetSearchRequ
 	}
 
 	return &api.GetSearchResponse{
-		Id:       srch.Id,
-		Rooms:    srch.Params.Rooms,
-		MaxPrice: srch.Params.MaxPrice,
-		ChatId:   srch.ChatId,
-		Name:     srch.Name,
-		State:    srch.State,
+		Id:            srch.Id,
+		Rooms:         srch.Params.Rooms,
+		MaxPrice:      srch.Params.MaxPrice,
+		TownsNames:    srch.Params.TownsNames,
+		TownsIds:      srch.Params.TownsIds,
+		QuartersNames: srch.Params.QuartersNames,
+		QuartersIds:   srch.Params.QuartersIds,
+		IsVnz:         srch.Params.isVnzh,
+		ChatId:        srch.ChatId,
+		Name:          srch.Name,
+		State:         srch.State,
 	}, nil
 }
