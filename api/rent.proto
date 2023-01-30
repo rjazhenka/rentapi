@@ -9,6 +9,7 @@ service RentService {
   rpc MarkAsSent(MarkAsSentRequest) returns (MarkAsSentResponse) {}
   rpc GetRentToSend(GetRentToSendRequest) returns (GetRentToSendResponse) {}
   rpc CheckIfExist(CheckIfExistRequest) returns (CheckIfExistResponse) {}
+
   rpc ModifySearch(ModifySearchRequest) returns (ModifySearchResponse) {}
   rpc CreateSearch(CreateSearchRequest) returns (CreateSearchResponse) {}
   rpc GetSearch(GetSearchRequest) returns (GetSearchResponse) {}
@@ -69,11 +70,8 @@ message GetSearchResponse {
   int64 chat_id = 4;
   string name = 5;
   int32 state = 6;
-  repeated string towns_names = 7;
-  repeated int32 towns_ids = 8;
-  repeated string quarters_names = 9;
-  repeated int32 quarters_ids = 10;
-  bool is_vnz = 11;
+  repeated SearchTown towns = 7;
+  bool is_vnz = 8;
 }
 
 message CreateSearchRequest {
@@ -83,17 +81,25 @@ message CreateSearchRequest {
   string name = 4;
 }
 
+message SearchTown {
+  int32 id = 1;
+  string name = 2;
+  repeated SearchQuarter quarters = 3;
+}
+
+message SearchQuarter {
+  int32 id = 1;
+  string name = 2;
+}
+
 message ModifySearchRequest {
   int32 rooms = 1;
   int32 max_price = 2;
   int64 chat_id = 3;
   string name = 4;
   int32 state = 5;
-  repeated string towns_names = 6;
-  repeated int32 towns_ids = 7;
-  repeated string quarters_names = 8;
-  repeated int32 quarters_ids = 9;
-  bool is_vnz = 10;
+  bool is_vnz = 6;
+  repeated SearchTown towns = 7;
 }
 
 message ModifySearchResponse {

@@ -13,14 +13,32 @@ func (r *pgRentRepository) ModifySearch(ctx context.Context, req *api.ModifySear
 			set name = $3, params = $1, state = $4
 		returning id
 	`
+	towns := make([]SearchTown, len(req.Towns))
+	townsNames := make([]string, len(req.Towns))
+	var quartersNames []string
+	for i, t := range req.Towns {
+		quarters := make([]SearchQuarter, len(t.Quarters))
+		for k, q := range t.Quarters {
+			quartersNames = append(quartersNames, q.Name)
+			quarters[k] = SearchQuarter{
+				Id:   q.Id,
+				Name: q.Name,
+			}
+		}
+		towns[i] = SearchTown{
+			t.Id,
+			t.Name,
+			quarters,
+		}
+		townsNames[i] = t.Name
+	}
 	params := &RentSearchParams{
 		Rooms:         req.Rooms,
 		MaxPrice:      req.MaxPrice,
-		TownsIds:      req.TownsIds,
-		TownsNames:    req.TownsNames,
-		QuartersIds:   req.QuartersIds,
-		QuartersNames: req.QuartersNames,
-		isVnzh:        req.IsVnz,
+		Towns:         towns,
+		IsVnzh:        req.IsVnz,
+		QuartersNames: quartersNames,
+		TownsNames:    townsNames,
 	}
 
 	var id int64

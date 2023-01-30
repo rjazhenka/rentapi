@@ -16,17 +16,32 @@ func (r *pgRentRepository) GetSearch(ctx context.Context, req *api.GetSearchRequ
 		return nil, err
 	}
 
+	towns := make([]*api.SearchTown, len(srch.Params.Towns))
+
+	for i, t := range srch.Params.Towns {
+		quarters := make([]*api.SearchQuarter, len(t.Quarters))
+		for k, q := range t.Quarters {
+			quarters[k] = &api.SearchQuarter{
+				Id:   q.Id,
+				Name: q.Name,
+			}
+		}
+		town := &api.SearchTown{
+			Id:       t.Id,
+			Name:     t.Name,
+			Quarters: quarters,
+		}
+		towns[i] = town
+	}
+
 	return &api.GetSearchResponse{
-		Id:            srch.Id,
-		Rooms:         srch.Params.Rooms,
-		MaxPrice:      srch.Params.MaxPrice,
-		TownsNames:    srch.Params.TownsNames,
-		TownsIds:      srch.Params.TownsIds,
-		QuartersNames: srch.Params.QuartersNames,
-		QuartersIds:   srch.Params.QuartersIds,
-		IsVnz:         srch.Params.isVnzh,
-		ChatId:        srch.ChatId,
-		Name:          srch.Name,
-		State:         srch.State,
+		Id:       srch.Id,
+		Rooms:    srch.Params.Rooms,
+		MaxPrice: srch.Params.MaxPrice,
+		IsVnz:    srch.Params.IsVnzh,
+		ChatId:   srch.ChatId,
+		Name:     srch.Name,
+		State:    srch.State,
+		Towns:    towns,
 	}, nil
 }
