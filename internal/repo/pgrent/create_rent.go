@@ -52,8 +52,8 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 	join rent_search s on 
 	   (s.params->>'max_price')::int >= ad.price
 	   and (s.params->>'rooms')::int <= ad.rooms  
-	   and ((s.params->>'towns_names')::jsonb ? ad.region_label or (s.params->>'towns_names')::jsonb = '[]'::jsonb or (s.params->>'towns_names') is null)
-       and (((s.params->>'quarters_names')::jsonb ? ad.district_label) or (s.params->>'quarters_names')::jsonb = '[]'::jsonb or (s.params->>'quarter_names') is null)
+	   and ((s.params->>'towns_names')::jsonb ? ad.region_label or (s.params->>'towns_names')::jsonb = '[]'::jsonb)
+       and (((s.params->>'quarters_names')::jsonb ? ad.district_label) or (s.params->>'quarters_names')::jsonb = '[]'::jsonb) is null)
 	   and ad.id = $1;
 	`
 
