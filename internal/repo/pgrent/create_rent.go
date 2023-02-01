@@ -32,8 +32,8 @@ func (r *pgRentRepository) CreateRent(ctx context.Context, crRt *api.CreateRentR
 		                         tg_user_id,
 		                         contact_tg_user_name
 		                         )
-		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 
-		        $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, 
+		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, INITCAP($11), $12, 
+		        INITCAP($13), $14, $15, $16, $17, $18, $19, $20, $21, $22, 
 		        $23, $24, $25, $26, $27, $28, $29, $30, $31)
 		on conflict(external_id) do update set
 		                          title = EXCLUDED.title
