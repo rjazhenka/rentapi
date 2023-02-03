@@ -22,7 +22,7 @@ func (r *pgRentRepository) ModifySearch(ctx context.Context, req *api.ModifySear
 	for i, t := range req.Towns {
 		quarters := make([]SearchQuarter, len(t.Quarters))
 		for k, q := range t.Quarters {
-			if slices.Contains([]int{4851, 4853, 4854, 4855, 4856}, int(t.Id)) {
+			if slices.Contains([]int{4851, 4853, 4854, 4855, 4856}, int(q.Id)) {
 				hasLara = true
 			}
 			quartersNames = append(quartersNames, q.Name)
@@ -40,8 +40,7 @@ func (r *pgRentRepository) ModifySearch(ctx context.Context, req *api.ModifySear
 	}
 	if hasLara {
 		quartersNames = append(quartersNames, "Lara")
-	} else if len(quartersNames) != 0 {
-		i := slices.Index(quartersNames, "Lara")
+	} else if i := slices.Index(quartersNames, "Lara"); i != -1 {
 		quartersNames = slices.Delete(quartersNames, i, i+1)
 	}
 	params := &RentSearchParams{
