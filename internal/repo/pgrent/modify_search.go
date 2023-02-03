@@ -40,7 +40,7 @@ func (r *pgRentRepository) ModifySearch(ctx context.Context, req *api.ModifySear
 	}
 	if hasLara {
 		quartersNames = append(quartersNames, "Lara")
-	} else {
+	} else if len(quartersNames) != 0 {
 		i := slices.Index(quartersNames, "Lara")
 		quartersNames = slices.Delete(quartersNames, i, i+1)
 	}
