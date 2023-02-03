@@ -13,7 +13,8 @@ func (r *pgRentRepository) GetQuartersByTowns(_ context.Context, req *api.GetQua
     	q.name_tr quarter_name_tr,
     	is_vnz,
     	q.town_id town_id,
-    	t.name_tr town_name
+    	t.name_tr town_name,
+    	coalesce(q.district_name, '')
 from geo_quarter q
 join geo_town t on q.town_id = t.id
 where q.town_id = any($1)
@@ -40,6 +41,7 @@ order by q.freq desc -- important!!! tgsenderbot relies on order`
 			&quarter.IsVnzh,
 			&quarter.Town.Id,
 			&quarter.Town.NameTr,
+			&quarter.DistrictName,
 		)
 
 		if err != nil {

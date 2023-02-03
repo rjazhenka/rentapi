@@ -30,6 +30,7 @@ message Quarter {
   int32 id = 2;
   string name_tr = 3;
   bool is_vnzh = 4;
+  string district_name = 5;
 }
 
 message GetQuartersByTownsRequest {
