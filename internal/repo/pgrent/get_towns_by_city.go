@@ -11,7 +11,7 @@ func (r *pgRentRepository) GetTownsByCity(_ context.Context, req *api.GetTownsBy
     	id, 
     	name_tr 
 from geo_town where city_id = $1
-order by freq desc`
+order by name_tr`
 
 	rows, err := r.db.Query(sql, req.CityId)
 
