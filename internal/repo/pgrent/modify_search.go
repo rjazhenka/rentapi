@@ -16,7 +16,7 @@ func (r *pgRentRepository) ModifySearch(ctx context.Context, req *api.ModifySear
 	`
 	towns := make([]SearchTown, len(req.Towns))
 	townsNames := make([]string, len(req.Towns))
-	var quartersNames []string
+	quartersNames := make([]string, 0)
 
 	hasLara := false //TODO refactor
 	for i, t := range req.Towns {
